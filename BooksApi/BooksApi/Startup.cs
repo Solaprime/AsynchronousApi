@@ -1,3 +1,4 @@
+using AutoMapper;
 using BooksApi.Contexts;
 using BooksApi.Services;
 using Microsoft.AspNetCore.Builder;
@@ -33,6 +34,7 @@ namespace BooksApi
                 Configuration.GetConnectionString("BookDbConnectionString")));
             services.AddControllers();
             services.AddScoped<IBookRepository, BookRepository>();
+            services.AddAutoMapper();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

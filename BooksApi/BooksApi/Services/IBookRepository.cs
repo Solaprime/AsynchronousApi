@@ -15,6 +15,12 @@ namespace BooksApi.Services
 
        Task<IEnumerable<Book>>GetBooksAsync();
         Task<Book> GetBookAsync(Guid Id);
+        void AddBook(Book bookToAdd);
+
+        Task<bool> SaveChangesAsync();
+        //Task AddBookAsync(Book bookToAdd);
+        // Getting for a collection of resoirces
+        Task<IEnumerable<Entities.Book>> GetBooksAsync(IEnumerable<Guid> bookIds);
     }
 }
 

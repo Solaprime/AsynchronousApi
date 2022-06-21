@@ -13,7 +13,7 @@ namespace BooksApi.Services
     public class BookRepository : IBookRepository, IDisposable
     {
         private BookContext _Context;
-        public BookRepository(BookContext bookContext)
+        public BookRepository(BookContext bookContext)  
         {
             _Context = bookContext ?? throw new ArgumentNullException(nameof(bookContext));
         }
@@ -47,6 +47,40 @@ namespace BooksApi.Services
         {
             return await _Context.Books.Include(b=>b.Author).ToListAsync();
         }
+
+        public void  AddBook(Book bookToAdd)
+        {
+            if (bookToAdd == null)
+            {
+                throw new ArgumentNullException(nameof(bookToAdd));
+            }
+            _Context.Add(bookToAdd);
+        }
+
+        public  async Task<bool> SaveChangesAsync()
+        {
+            // return true if 1 or more Entites where changed
+            return (await _Context.SaveChangesAsync() > 0);
+        }
+
+        public async Task<IEnumerable<Book>> GetBooksAsync(IEnumerable<Guid> bookIds)
+        {
+            return await _Context.Books.Where(b => bookIds.Contains(b.Id))
+                .Include(b => b.Author).ToListAsync();
+        }
+
+        //public  async Task AddBookAsync(Book bookToAdd)
+        //{
+        //    if (bookToAdd == null)
+        //    {
+        //        throw new ArgumentNullException(nameof(bookToAdd));
+        //    }
+        //    await _Context.AddAsync(bookToAdd);
+        //}
+
+
     }
+
+
     
 }
